@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LazyHTML — Super Demo</title>
+<style>
+  /* Only the bare minimum non-lazy CSS: page reset + font import.
+     Everything visual below is driven by lazy attributes. */
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif; background:#0b0f13; }
+  code, pre { font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; }
+</style>
+</head>
+<body bg="#0b0f13" color="#e9eef2">
+
+  <header pad="20" bg="#0e151b" border-color="#1c2731" pos="sticky" top="0" z="10" style="border-bottom:1px solid #1c2731;">
+    <div w="100%" maxw="1100" style="margin:0 auto;" flex="true" justify="space-between" items="center">
+      <span weight="700" size="18" color="#34d399">⬡ LazyHTML</span>
+      <span size="13" color="#8598a8">the attribute is the stylesheet</span>
+    </div>
+  </header>
+
+  <main maxw="1100" style="margin:0 auto;" pad="40">
+
+    <!-- HERO -->
+    <section pad-y="60" align="center">
+      <h1 size="48" weight="700" color="#e9eef2" m="0">
+        Combine everything <span color="#34d399">on the tag itself.</span>
+      </h1>
+      <p size="17" color="#8598a8" maxw="620" style="margin:16px auto 0;">
+        No stylesheet round-trip, no class-naming debates. LazyHTML reads
+        attributes off the element — color, spacing, layout, hover states,
+        breakpoints — and resolves them lazily into one shared CSS class.
+      </p>
+      <button
+        pad-x="24" pad-y="12" radius="999" bg="#34d399" color="#04150e"
+        weight="600" border="none" cursor="pointer" m="24"
+        hover:bg="#4fe3ac" hover:scale="1.03" transition="all .15s ease"
+        onclick="alert('Resolved entirely from attributes.')">
+        Try me
+      </button>
+    </section>
+
+    <!-- BASIC TYPE + COLOR -->
+    <section pad-y="30">
+      <h2 size="22" color="#34d399" mb="12">1. Typography &amp; color</h2>
+      <p bold="true" underline="true" italic="true" color="#5bc8f5" size="16">
+        Bold, underlined, italic, and colored — four attributes, one element.
+      </p>
+      <p color="black" bg="white" pad="8" radius="6" w="fit-content">
+        color="black" — named colors resolve normally.
+      </p>
+      <p color="#ff0044" bg="#111" pad="8" radius="6" w="fit-content" mt="8">
+        color="#ff0044" — proper hex works as expected.
+      </p>
+      <p color="#black" bg="#eee" pad="8" radius="6" w="fit-content" mt="8">
+        color="#black" — the typo-tolerant form from the spec still resolves.
+      </p>
+    </section>
+
+    <!-- BOX MODEL -->
+    <section pad-y="30">
+      <h2 size="22" color="#34d399" mb="12">2. Spacing &amp; sizing</h2>
+      <div flex="true" gap="12" wrap="wrap">
+        <div w="120" h="80" bg="#141d26" radius="10" center="true" color="#8598a8" size="13">w/h</div>
+        <div pad="20" bg="#141d26" radius="10" color="#8598a8" size="13">pad="20"</div>
+        <div pad-x="24" pad-y="8" bg="#141d26" radius="10" color="#8598a8" size="13">pad-x / pad-y</div>
+        <div mt="20" pad="12" bg="#141d26" radius="10" color="#8598a8" size="13">mt="20"</div>
+      </div>
+    </section>
+
+    <!-- LAYOUT / GRID -->
+    <section pad-y="30">
+      <h2 size="22" color="#34d399" mb="12">3. Layout — flex &amp; grid, responsive</h2>
+      <div cols="1" md:cols="2" lg:cols="4" gap="12" grid="true" style="display:grid;">
+        <div pad="16" bg="#0e151b" border="1px solid #1c2731" radius="10">
+          <strong color="#e9eef2">1 col</strong>
+          <p color="#8598a8" size="13" mt="4">Base attribute: cols="1"</p>
+        </div>
+        <div pad="16" bg="#0e151b" border="1px solid #1c2731" radius="10">
+          <strong color="#e9eef2">md:cols="2"</strong>
+          <p color="#8598a8" size="13" mt="4">Kicks in ≥768px</p>
+        </div>
+        <div pad="16" bg="#0e151b" border="1px solid #1c2731" radius="10">
+          <strong color="#e9eef2">lg:cols="4"</strong>
+          <p color="#8598a8" size="13" mt="4">Kicks in ≥1024px</p>
+        </div>
+        <div pad="16" bg="#0e151b" border="1px solid #1c2731" radius="10">
+          <strong color="#e9eef2">Mobile-first</strong>
+          <p color="#8598a8" size="13" mt="4">Base always applies</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATES -->
+    <section pad-y="30">
+      <h2 size="22" color="#34d399" mb="12">4. Interaction states</h2>
+      <div flex="true" gap="16" wrap="wrap">
+        <a href="#" pad-x="18" pad-y="10" bg="#141d26" color="#e9eef2" radius="8"
+           hover:bg="#34d399" hover:color="#04150e" transition="background .15s ease" style="display:inline-block;">
+          hover:bg + hover:color
+        </a>
+        <button pad-x="18" pad-y="10" bg="#141d26" color="#e9eef2" radius="8" border="none" cursor="pointer"
+           focus:border-color="#34d399" style="border:2px solid transparent;">
+          focus:border-color (tab to me)
+        </button>
+        <div pad-x="18" pad-y="10" bg="#141d26" color="#e9eef2" radius="8"
+             hover:scale="1.05" transition="transform .15s ease" style="display:inline-block;">
+          hover:scale
+        </div>
+      </div>
+    </section>
+
+    <!-- LAZY VIEWPORT LOADING -->
+    <section pad-y="30">
+      <h2 size="22" color="#34d399" mb="12">5. True laziness — viewport-deferred resolution</h2>
+      <p color="#8598a8" size="14" mb="12">
+        Scroll down. The card below carries <code>lazy="true"</code> — its
+        attributes are not turned into CSS until it is about to enter the
+        viewport (via IntersectionObserver).
+      </p>
+      <div h="400" style="display:flex;align-items:center;justify-content:center;color:#56697a;font-size:13px;">
+        ↓ keep scrolling ↓
+      </div>
+      <div lazy="true" pad="24" bg="#141d26" radius="12" border="1px solid #2a3a47"
+           shadow="0 12px 32px -16px rgba(52,211,153,.35)">
+        <strong color="#34d399">Resolved lazily ✓</strong>
+        <p color="#8598a8" size="13" mt="6">
+          This block's styles were only computed once it neared the viewport.
+        </p>
+      </div>
+    </section>
+
+    <!-- RAW PASSTHROUGH -->
+    <section pad-y="30">
+      <h2 size="22" color="#34d399" mb="12">6. Escape hatch — raw CSS passthrough</h2>
+      <p color="#8598a8" size="14" mb="12">
+        Anything not in the vocabulary can be set with an <code>lz-*</code> attribute,
+        naming the literal CSS property.
+      </p>
+      <div pad="20" bg="#141d26" radius="12" lz-text-shadow="0 0 12px rgba(52,211,153,.6)"
+           lz-backdrop-filter="blur(4px)" color="#34d399" weight="700" size="18">
+        lz-text-shadow + lz-backdrop-filter
+      </div>
+    </section>
+
+  </main>
+
+  <footer pad="24" color="#56697a" size="13" align="center" border="1px solid #1c2731" style="border-width:1px 0 0;">
+    LazyHTML by RoomOff (Jade Hamel) — every visual above was produced by attributes, not a stylesheet. · 
+    <a href="https://roomoff.com">ROOMOFF</a>
+  </footer>
+
+  <script src="../dist/lazy-html.js"></script>
+</body>
+</html>
