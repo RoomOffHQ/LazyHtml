@@ -1,0 +1,22 @@
+{
+  "name": "lazy-html",
+  "version": "1.0.0",
+  "description": "Attribute-driven CSS engine — write styles directly on your HTML tags.",
+  "main": "dist/lazy-html.js",
+  "author": "RoomOff (Jade Hamel)",
+  "license": "MIT",
+  "files": [
+    "src",
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "css",
+    "html",
+    "atomic-css",
+    "attributes",
+    "lazy",
+    "runtime"
+  ]
+}

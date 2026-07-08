@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LazyHTML — Attribute-driven CSS</title>
+<meta name="description" content="LazyHTML turns HTML attributes directly into CSS. Write color, spacing, layout, hover states and breakpoints on the tag itself.">
+<link rel="stylesheet" href="docs/style.css">
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="logotext">LAZYHTML</div>
+    <nav class="statusbar">
+      <a href="docs/index.html">Docs</a>
+      <a href="demo/index.html">Demo</a>
+      <a href="https://github.com" onclick="return false;">GitHub</a>
+      <a href="docs/index.html#quick-start" class="cta-link">Get started</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="section-intro">
+    <span class="eyebrow">v1.0.0 · by RoomOFF (Jade Hamel)</span>
+    <h1>The attribute<br>is the stylesheet.</h1>
+    <p>
+      LazyHTML is a dependency-free runtime that reads styling straight off
+      your HTML tags — color, spacing, layout, hover states, breakpoints —
+      and lazily resolves them into one shared, deduplicated CSS class.
+      No build step. No naming decisions. No stylesheet to maintain.
+    </p>
+    <div class="cta">
+      <a class="primary" href="docs/index.html">Read the docs</a>
+      <a class="ghost" href="demo/index.html">See the live demo</a>
+    </div>
+    <p class="note">~4 KB core runtime · zero dependencies · works with any stack, or none at all.</p>
+  </section>
+
+  <div class="feature-strip">
+    <div><strong>0</strong><span>Dependencies</span></div>
+    <div><strong>7</strong><span>Source modules</span></div>
+    <div><strong>~50</strong><span>Style attributes</span></div>
+    <div><strong>1</strong><span>Runtime stylesheet, generated for you</span></div>
+  </div>
+
+  <!-- CODE SAMPLE -->
+  <section style="max-width:820px;margin:0 auto var(--sp-11);">
+    <div class="dev-code">
+      <div class="dev-code-head"><span>html</span><span>this button, no CSS file attached</span></div>
+      <pre><span class="tok-kw">&lt;button</span>
+  <span class="tok-key">bg</span>=<span class="tok-str">"#34d399"</span> <span class="tok-key">color</span>=<span class="tok-str">"#04150e"</span>
+  <span class="tok-key">pad-x</span>=<span class="tok-str">"20"</span> <span class="tok-key">pad-y</span>=<span class="tok-str">"10"</span> <span class="tok-key">radius</span>=<span class="tok-str">"999"</span>
+  <span class="tok-key">bold</span>=<span class="tok-str">"true"</span>
+  <span class="tok-key">hover:bg</span>=<span class="tok-str">"#4fe3ac"</span> <span class="tok-key">hover:scale</span>=<span class="tok-str">"1.03"</span>
+  <span class="tok-key">md:pad-x</span>=<span class="tok-str">"32"</span>
+  <span class="tok-key">transition</span>=<span class="tok-str">"all .15s ease"</span>
+<span class="tok-kw">&gt;</span>
+  Ship it
+<span class="tok-kw">&lt;/button&gt;</span></pre>
+    </div>
+  </section>
+
+  <!-- FEATURE GRID -->
+  <section style="margin-bottom: var(--sp-11);">
+    <div class="section-intro">
+      <span class="eyebrow">why lazyhtml</span>
+      <h2>Built around one idea, pushed all the way</h2>
+      <p>Combine the maximum number of visual attributes on a single element — everything else follows from that.</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <h3><a href="docs/index.html#vocabulary">Full vocabulary</a></h3>
+        <p>Around 50 attributes covering typography, box model, layout, position, borders, effects — named in plain English, not abbreviated tokens.</p>
+      </div>
+      <div class="card">
+        <h3><a href="docs/index.html#modifiers">Composable modifiers</a></h3>
+        <p>Prefix any attribute with a state (<code>hover:</code>, <code>focus:</code>) and/or a breakpoint (<code>md:</code>, <code>lg:</code>), in any order.</p>
+      </div>
+      <div class="card">
+        <h3><a href="docs/index.html#laziness">Lazy by design</a></h3>
+        <p>Rules are cached and deduplicated automatically. Mark an element <code>lazy="true"</code> to defer its resolution until it nears the viewport.</p>
+      </div>
+      <div class="card">
+        <h3><a href="docs/index.html#api">Tiny, extensible API</a></h3>
+        <p><code>registerAttribute</code>, <code>registerState</code> and <code>registerBreakpoint</code> let you grow the vocabulary without forking the library.</p>
+      </div>
+      <div class="card">
+        <h3><a href="docs/index.html#vocabulary">Raw CSS escape hatch</a></h3>
+        <p>Anything outside the vocabulary is one <code>lz-*</code> attribute away — <code>lz-text-shadow</code>, <code>lz-backdrop-filter</code>, any property at all.</p>
+      </div>
+      <div class="card">
+        <h3><a href="demo/index.html">Zero build step</a></h3>
+        <p>One script tag. No compiler, no CDN dependency, no PostCSS pipeline. Open <code>demo/index.html</code> directly in a browser.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON -->
+  <section class="split-section">
+    <div>
+      <h2>Without LazyHTML</h2>
+      <p>A class name to invent, a rule to write somewhere else, and a mental round-trip every time you tweak a value.</p>
+      <div class="dev-code">
+        <div class="dev-code-head"><span>css</span><span>styles.css</span></div>
+        <pre><span class="tok-fn">.btn-primary</span> {
+  <span class="tok-key">background</span>: <span class="tok-str">#34d399</span>;
+  <span class="tok-key">color</span>: <span class="tok-str">#04150e</span>;
+  <span class="tok-key">padding</span>: <span class="tok-num">10px</span> <span class="tok-num">20px</span>;
+  <span class="tok-key">border-radius</span>: <span class="tok-num">999px</span>;
+  <span class="tok-key">font-weight</span>: <span class="tok-num">700</span>;
+}
+<span class="tok-fn">.btn-primary:hover</span> {
+  <span class="tok-key">background</span>: <span class="tok-str">#4fe3ac</span>;
+  <span class="tok-key">transform</span>: <span class="tok-fn">scale</span>(<span class="tok-num">1.03</span>);
+}</pre>
+      </div>
+    </div>
+    <div>
+      <h2>With LazyHTML</h2>
+      <p>The same result, declared once, on the element it styles. Move it, copy it, delete it — nothing else to update.</p>
+      <div class="dev-code">
+        <div class="dev-code-head"><span>html</span><span>index.html</span></div>
+        <pre><span class="tok-kw">&lt;button</span>
+  <span class="tok-key">bg</span>=<span class="tok-str">"#34d399"</span> <span class="tok-key">color</span>=<span class="tok-str">"#04150e"</span>
+  <span class="tok-key">pad-x</span>=<span class="tok-str">"20"</span> <span class="tok-key">pad-y</span>=<span class="tok-str">"10"</span>
+  <span class="tok-key">radius</span>=<span class="tok-str">"999"</span> <span class="tok-key">bold</span>=<span class="tok-str">"true"</span>
+  <span class="tok-key">hover:bg</span>=<span class="tok-str">"#4fe3ac"</span>
+  <span class="tok-key">hover:scale</span>=<span class="tok-str">"1.03"</span>
+<span class="tok-kw">&gt;</span>Ship it<span class="tok-kw">&lt;/button&gt;</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- LANDING CARDS: entry points -->
+  <section style="margin: var(--sp-11) 0;">
+    <div class="section-intro">
+      <span class="eyebrow">start here</span>
+      <h2>Three ways in</h2>
+    </div>
+    <div class="dev-landing-grid">
+      <a class="dev-landing-card" href="docs/index.html">
+        <div class="dev-landing-icon">📘</div>
+        <h3>Documentation</h3>
+        <p>Full attribute reference, modifiers, laziness model, and the JavaScript API.</p>
+        <div class="dev-landing-tags"><span>Reference</span><span>API</span></div>
+      </a>
+      <a class="dev-landing-card" href="demo/index.html">
+        <div class="dev-landing-icon">⬡</div>
+        <h3>Live demo</h3>
+        <p>A single page exercising the entire vocabulary — typography, grid, hover states, viewport-lazy loading.</p>
+        <div class="dev-landing-tags"><span>Interactive</span></div>
+      </a>
+      <a class="dev-landing-card" href="dist/lazy-html.js" download>
+        <div class="dev-landing-icon">⬇</div>
+        <h3>Download the bundle</h3>
+        <p><code>dist/lazy-html.js</code> — drop it in a script tag, no build step, no dependencies.</p>
+        <div class="dev-landing-tags"><span>~18 KB</span><span>MIT</span></div>
+      </a>
+    </div>
+  </section>
+
+  <div class="cta">
+    <a class="primary" href="docs/index.html#quick-start">Get started</a>
+    <a class="ghost" href="demo/index.html">Explore the demo</a>
+  </div>
+
+  <footer>
+    <span>LazyHTML — by ROOMOFF (Jade Hamel) · MIT License</span>
+    <a href="docs/index.html">Documentation</a> · 
+    <a href="https://roomoff.com">ROOMOFF</a>
+  </footer>
+
+</div>
+</body>
+</html>
