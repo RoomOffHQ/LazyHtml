@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LazyHTML — Documentation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="logotext">LAZYHTML</div>
+    <nav class="statusbar">
+      <a href="#quick-start">Quick start</a>
+      <a href="#vocabulary">Vocabulary</a>
+      <a href="#api">API</a>
+      <a href="../demo/index.html" class="cta-link">Live demo</a>
+    </nav>
+  </header>
+
+  <section class="section-intro">
+    <span class="eyebrow">attribute-driven styling</span>
+    <h1>LazyHTML<span class="version-badge">v1.0.0</span></h1>
+    <p>
+      A tiny runtime by RoomOff (Jade Hamel) that reads styling straight off your
+      HTML tags — color, spacing, layout, hover states, breakpoints — and
+      lazily resolves them into a single shared CSS class per element.
+      No build step, no stylesheet to maintain, no class-naming decisions.
+    </p>
+  </section>
+
+  <div class="feature-strip">
+    <div><strong>0</strong><span>Dependencies</span></div>
+    <div><strong>7</strong><span>Source modules</span></div>
+    <div><strong>~50</strong><span>Style attributes</span></div>
+    <div><strong>1</strong><span>Shared stylesheet, generated at runtime</span></div>
+  </div>
+
+  <nav class="dev-nav">
+    <a href="#quick-start" class="current">Quick start</a>
+    <a href="#philosophy">Philosophy</a>
+    <a href="#vocabulary">Vocabulary</a>
+    <a href="#modifiers">Modifiers</a>
+    <a href="#laziness">Laziness</a>
+    <a href="#api">API</a>
+    <a href="#file-structure">File structure</a>
+  </nav>
+
+  <div class="dev-prose">
+
+    <h2 id="quick-start">Quick start</h2>
+    <p>Drop the bundle on the page. LazyHTML scans the DOM on load and keeps watching it after.</p>
+    <div class="dev-code">
+      <div class="dev-code-head"><span>html</span><span>index.html</span></div>
+      <pre><span class="tok-kw">&lt;script</span> <span class="tok-key">src</span>=<span class="tok-str">"dist/lazy-html.js"</span><span class="tok-kw">&gt;&lt;/script&gt;</span>
+
+<span class="tok-kw">&lt;button</span>
+  <span class="tok-key">bg</span>=<span class="tok-str">"#34d399"</span> <span class="tok-key">color</span>=<span class="tok-str">"#04150e"</span>
+  <span class="tok-key">pad-x</span>=<span class="tok-str">"20"</span> <span class="tok-key">pad-y</span>=<span class="tok-str">"10"</span> <span class="tok-key">radius</span>=<span class="tok-str">"999"</span>
+  <span class="tok-key">bold</span>=<span class="tok-str">"true"</span>
+  <span class="tok-key">hover:scale</span>=<span class="tok-str">"1.03"</span> <span class="tok-key">transition</span>=<span class="tok-str">"all .15s ease"</span>
+<span class="tok-kw">&gt;</span>
+  Ship it
+<span class="tok-kw">&lt;/button&gt;</span></pre>
+    </div>
+    <p>That's it — no class name, no CSS file. LazyHTML hashes the combined declaration set and injects one rule into a runtime <code>&lt;style&gt;</code> tag, shared by every element with the same visual signature.</p>
+
+    <h2 id="philosophy">Philosophy</h2>
+    <p>Most utility-class frameworks still make you choose class names and maintain a mapping in your head. LazyHTML removes that layer: the attribute <em>is</em> the declaration, in plain English words rather than abbreviated class tokens, so a designer or a template author can read intent directly off the markup.</p>
+    <div class="dev-callout note">
+      <span class="dev-callout-label">Design goal</span>
+      Combine the maximum number of visual attributes on a single element, and let the stylesheet exist only as a byproduct — generated, cached, and deduplicated automatically.
+    </div>
+
+    <h2 id="vocabulary">Vocabulary</h2>
+    <p>Attributes map directly onto the property they set. A representative subset:</p>
+    <table class="dev-table">
+      <caption>Core attribute reference</caption>
+      <thead>
+        <tr><th>Attribute</th><th>CSS produced</th><th>Example</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="attr-chip">color<span class="val">="#5bc8f5"</span></span></td><td><code>color</code></td><td>Named, hex, or <code>var(--x)</code></td></tr>
+        <tr><td><span class="attr-chip">bg<span class="val">="black"</span></span></td><td><code>background-color</code></td><td>Same color resolution as <code>color</code></td></tr>
+        <tr><td><span class="attr-chip">pad / pad-x / pad-y<span class="val">="16"</span></span></td><td><code>padding*</code></td><td>Bare numbers become <code>px</code></td></tr>
+        <tr><td><span class="attr-chip">m / mt / mr / mb / ml<span class="val">="8"</span></span></td><td><code>margin*</code></td><td>Directional shorthands</td></tr>
+        <tr><td><span class="attr-chip">w / h / maxw / minh<span class="val">="240"</span></span></td><td>sizing properties</td><td>Any CSS length unit accepted</td></tr>
+        <tr><td><span class="attr-chip">radius<span class="val">="12"</span></span></td><td><code>border-radius</code></td><td>—</td></tr>
+        <tr><td><span class="attr-chip">bold / italic / underline<span class="val">="true"</span></span></td><td>type styling booleans</td><td>Presence alone (<code>bold=""</code>) also works</td></tr>
+        <tr><td><span class="attr-chip">flex / grid / cols<span class="val">="3"</span></span></td><td>layout properties</td><td>Combine with <code>gap</code>, <code>justify</code>, <code>items</code></td></tr>
+        <tr><td><span class="attr-chip">shadow<span class="val">="0 4px 12px #0006"</span></span></td><td><code>box-shadow</code></td><td>Raw value passed through</td></tr>
+        <tr><td><span class="attr-chip">lz-*<span class="val">="…"</span></span></td><td>any literal CSS property</td><td><code>lz-text-shadow="0 0 4px red"</code></td></tr>
+      </tbody>
+    </table>
+    <p>The full map lives in <code>src/lazy-html.attributes.js</code> and is one JavaScript object — adding a new word to the vocabulary is a one-line addition.</p>
+
+    <h2 id="modifiers">Modifiers — states &amp; breakpoints</h2>
+    <p>Any attribute can be prefixed with a state and/or a breakpoint, separated by colons. Order between prefixes doesn't matter.</p>
+    <div class="dev-code">
+      <div class="dev-code-head"><span>html</span><span>modifiers</span></div>
+      <pre><span class="tok-kw">&lt;a</span>
+  <span class="tok-key">bg</span>=<span class="tok-str">"#141d26"</span>
+  <span class="tok-key">hover:bg</span>=<span class="tok-str">"#34d399"</span>
+  <span class="tok-key">md:hover:scale</span>=<span class="tok-str">"1.05"</span>
+<span class="tok-kw">&gt;</span>Link<span class="tok-kw">&lt;/a&gt;</span></pre>
+    </div>
+    <table class="dev-table">
+      <caption>Available modifiers</caption>
+      <thead><tr><th>Prefix</th><th>Kind</th><th>Resolves to</th></tr></thead>
+      <tbody>
+        <tr><td><code>hover:</code></td><td>state</td><td><code>:hover</code></td></tr>
+        <tr><td><code>focus:</code></td><td>state</td><td><code>:focus</code></td></tr>
+        <tr><td><code>active:</code></td><td>state</td><td><code>:active</code></td></tr>
+        <tr><td><code>sm: / md: / lg: / xl:</code></td><td>breakpoint</td><td><code>min-width</code> media query, mobile-first</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="laziness">Laziness</h2>
+    <p>Two layers of "lazy" are at play:</p>
+    <ul>
+      <li><strong>Rule laziness:</strong> a declaration set is only ever converted into a CSS rule the first time it's seen; every later element with the same attributes reuses the cached class.</li>
+      <li><strong>Viewport laziness:</strong> add <code>lazy="true"</code> to an element to defer its resolution until it is about to scroll into view, via <code>IntersectionObserver</code>.</li>
+    </ul>
+    <div class="dev-callout warn">
+      <span class="dev-callout-label">Note</span>
+      A <code>MutationObserver</code> keeps watching the document after the initial scan, so content injected later (routing, <code>fetch()</code>-loaded HTML) is picked up automatically — call <code>LazyHTML.scan(node)</code> manually if you ever need to force it.
+    </div>
+
+    <h2 id="api">JavaScript API</h2>
+    <table class="dev-table">
+      <thead><tr><th>Method</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>LazyHTML.scan(root?)</code></td><td>Resolves every lazy attribute under <code>root</code> (default: <code>document</code>).</td></tr>
+        <tr><td><code>LazyHTML.resolve(el)</code></td><td>Resolves a single element immediately.</td></tr>
+        <tr><td><code>LazyHTML.registerAttribute(name, fn)</code></td><td>Adds a new word to the vocabulary. <code>fn(value, el)</code> returns an array of <code>"prop:value"</code> strings.</td></tr>
+        <tr><td><code>LazyHTML.registerState(name, pseudo)</code></td><td>Adds a new state modifier, e.g. <code>"open"</code> → <code>":is([open])"</code>.</td></tr>
+        <tr><td><code>LazyHTML.registerBreakpoint(name, mediaQuery)</code></td><td>Adds a new responsive prefix.</td></tr>
+        <tr><td><code>LazyHTML.resolveColor(value)</code></td><td>The color-parsing helper used internally by <code>color</code> / <code>bg</code>.</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="file-structure">File structure</h2>
+    <div class="dev-code">
+      <div class="dev-code-head"><span>text</span><span>project layout</span></div>
+      <pre>lazy-html/
+├── src/
+│   ├── lazy-html.core.js         <span class="tok-cmt"># cache, hashing, sheet injection</span>
+│   ├── lazy-html.colors.js       <span class="tok-cmt"># color parsing</span>
+│   ├── lazy-html.attributes.js   <span class="tok-cmt"># the attribute vocabulary</span>
+│   ├── lazy-html.responsive.js   <span class="tok-cmt"># sm:/md:/lg:/xl: breakpoints</span>
+│   ├── lazy-html.states.js       <span class="tok-cmt"># hover:/focus:/active: etc.</span>
+│   ├── lazy-html.observer.js     <span class="tok-cmt"># DOM scan, MutationObserver, IO</span>
+│   └── lazy-html.init.js         <span class="tok-cmt"># auto-boot</span>
+├── dist/
+│   ├── lazy-html.js              <span class="tok-cmt"># concatenated bundle</span>
+│   └── lazy-html.min.js
+├── demo/
+│   └── index.html                <span class="tok-cmt"># super demo</span>
+├── docs/
+│   ├── index.html                <span class="tok-cmt"># this page</span>
+│   └── style.css
+├── README.md
+├── package.json
+└── LICENSE</pre>
+    </div>
+
+  </div>
+
+  <footer>
+    <span>LazyHTML — by RoomOff (Jade Hamel)</span> · 
+    <a href="https://roomoff.com">ROOMOFF</a> · 
+    <a href="../demo/index.html">View the live demo →</a>
+  </footer>
+
+</div>
+</body>
+</html>
