@@ -28,8 +28,8 @@ No build step required. Just include the bundle:
 
 ## Docs & demo
 
-- [`docs/index.html`](docs/index.html) — full documentation
-- [`demo/index.html`](demo/index.html) — a live "super demo" exercising the whole vocabulary
+- [`docs/index.html`](https://roomoff.com/lazyhtml/docs/index.html) — full documentation
+- [`demo/index.html`](https://roomoff.com/lazyhtml/demo/index.html) — a live demo exercising the whole vocabulary
 
 ## Source layout
 
